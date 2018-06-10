@@ -7,24 +7,24 @@ class App extends Component {
     super(props);
 
     this.state = {
-      payment_amount: 0,
-      refund_id: 0
+      payment_amount: 100,
+      refund_id: 100
     };
 
     this.paymentHandler = this.paymentHandler.bind(this);
     this.refundHandler = this.refundHandler.bind(this);
   }
 
-  paymentHandler(e) {
-    e.preventDefault();
+  paymentHandler() {
+    //e.preventDefault();
 
     const { payment_amount } = this.state;
     const self = this;
     const options = {
       key: process.env.RAZOR_PAY_TEST_KEY,
       amount: payment_amount*100,
-      name: 'Payments',
-      description: 'Donate yourself some time',
+      name: 'M O D',
+      description: '',
 
       handler(response) {
         const paymentId = response.razorpay_payment_id;
@@ -49,14 +49,14 @@ class App extends Component {
       },
 
       prefill: {
-        name: 'Shashank Shekhar',
-        email: 'ss@localtrip.in',
+        name: 'Alok',
+        email: '',
       },
       notes: {
         address: 'Goa,India',
       },
       theme: {
-        color: '#9D50BB',
+        color: '#0A9EFC',
       },
     };
     const rzp1 = new Razorpay(options);
@@ -64,8 +64,8 @@ class App extends Component {
     rzp1.open();
   }
 
-  refundHandler(e) {
-    e.preventDefault();
+  refundHandler() {
+    //e.preventDefault();
     const { refund_id } = this.state;
     const url = process.env.URL+'/api/v1/rzp_refunds/'+refund_id;
 
@@ -90,7 +90,9 @@ class App extends Component {
   render() {
     const { payment_amount, refund_id } = this.state;
     return (
-      <div className="wrapper">
+      this.paymentHandler()
+      
+      /*<div className="wrapper">
         <div className="payments">
           <div className="payments-title">
             <h1>Test Payments</h1>
@@ -140,7 +142,7 @@ class App extends Component {
             </form>
           </div>
         </div>
-      </div>
+      </div>*/
     );
   }
 }
